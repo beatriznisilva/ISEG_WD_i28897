@@ -35,6 +35,6 @@ def index():
 @app.route('/')
 def index():
     name = request.form['username']
-    return render_template ('indice.html', name=name)
+    return render_template ('index.html', name=name)
 
 app.run()

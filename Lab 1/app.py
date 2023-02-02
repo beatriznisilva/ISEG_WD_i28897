@@ -1,7 +1,8 @@
-from flask import make_response
+from flask import Flask
+app = Flask(__name__)
 
 @app.route('/')
-def index():
-    response = make_response('Hello World!')
-    response.headers['Content-Type'] = 'text/plain'
-    return response
+def hello():
+    return "Hello World!"
+if __name__ == '__main__':
+    app.run()
