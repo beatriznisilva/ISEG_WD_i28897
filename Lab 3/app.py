@@ -34,3 +34,4 @@ app.config["SECRET_KEY"] = "your_secret_key"
 from flask_wtf.csrf import CSRFProtect
 csrf = CSRFProtect(app)
 
+app.run()
