@@ -1,25 +1,17 @@
 from flask import Flask
-app = Flask(__name__)
-
- #Lab 3
 from flask import render_template, request
-@app.route("/form", methods=["GET", "POST"])
-def form():
-    if request.method == "POST":
-        name = request.form["name"]
-        return "Hello " + name
-    return render_template("form.html")
-
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+from flask_wtf.csrf import CSRFProtect
+
+app = Flask(__name__)
+
+app.config["SECRET_KEY"] = "your_secret_key"
 
 class NameForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     submit = SubmitField("Submit")
-
-
-from flask import render_template, request
 
 @app.route("/form", methods=["GET", "POST"])
 def form():
@@ -29,9 +21,6 @@ def form():
         return "Hello " + name
     return render_template("form.html", form=form)
 
-app.config["SECRET_KEY"] = "your_secret_key"
-
-from flask_wtf.csrf import CSRFProtect
-csrf = CSRFProtect(app)
-
 app.run()
+
+csrf = CSRFProtect(app)
