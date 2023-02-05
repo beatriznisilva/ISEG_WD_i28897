@@ -39,4 +39,3 @@ def create_user(name):
 
 
 #sqlite3 db.sqlite
-
