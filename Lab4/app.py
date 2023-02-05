@@ -14,23 +14,32 @@ DATABASE = 'db.sqlite'
 def connect_db():
     return sqlite3.connect(DATABASE)
 
+
+#criação da tabela
 def init_db():
     with connect_db() as con:
         con.execute('CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)')
 
+#criação de valores
 def create_user(name):
     with connect_db() as con:
         con.execute("INSERT INTO users (name) VALUES (?)", (name,))
+
+
+        #pesquisa de dados
 
 # def get_users():
 #     with connect_db() as con:
 #         cursor = con.execute("SELECT * FROM users")
 #     return cursor.fetchall()
 
+        #atualização de dados
+
 # def update_user(id, name):
 #     with connect_db() as con:
 #         con.execute("UPDATE users SET name = ? WHERE id = ?", (name, id))
 
+        #eliminação de dados
 
 # def delete_user(id):
 #     with connect_db() as con:
@@ -39,3 +48,4 @@ def create_user(name):
 
 
 #sqlite3 db.sqlite
+#Localização do SQLite: "C:\Program Files\DB Browser for SQLite\"
