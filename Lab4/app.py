@@ -7,8 +7,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 @app.route("/")
 def hello():
     return "Hello World!"
-if __name__ == "__main__":
-    app.run()
 
 DATABASE = 'db.sqlite'
 def connect_db():
@@ -28,24 +26,25 @@ def create_user(name):
 
         #pesquisa de dados
 
-# def get_users():
-#     with connect_db() as con:
-#         cursor = con.execute("SELECT * FROM users")
-#     return cursor.fetchall()
+def get_users():
+     with connect_db() as con:
+         cursor = con.execute("SELECT * FROM users")
+     return cursor.fetchall()
 
         #atualização de dados
 
-# def update_user(id, name):
-#     with connect_db() as con:
-#         con.execute("UPDATE users SET name = ? WHERE id = ?", (name, id))
+def update_user(id, name):
+     with connect_db() as con:
+        con.execute("UPDATE users SET name = ? WHERE id = ?", (name, id))
 
         #eliminação de dados
 
-# def delete_user(id):
-#     with connect_db() as con:
-#         con.execute("DELETE FROM users WHERE id = ?", (id,))
+def delete_user(id):
+    with connect_db() as con:
+        con.execute("DELETE FROM users WHERE id = ?", (id,))
 
 
+if __name__ == "__main__":
+    init_db()
+    app.run()
 
-#sqlite3 db.sqlite
-#Localização do SQLite: "C:\Program Files\DB Browser for SQLite\"
