@@ -24,21 +24,18 @@ def create_user(name):
         con.execute("INSERT INTO users (name) VALUES (?)", (name,))
 
 
-        #pesquisa de dados
-
+#pesquisa de dados
 def get_users():
      with connect_db() as con:
          cursor = con.execute("SELECT * FROM users")
      return cursor.fetchall()
 
-        #atualização de dados
-
+#atualização de dados
 def update_user(id, name):
      with connect_db() as con:
         con.execute("UPDATE users SET name = ? WHERE id = ?", (name, id))
 
-        #eliminação de dados
-
+#eliminação de dados
 def delete_user(id):
     with connect_db() as con:
         con.execute("DELETE FROM users WHERE id = ?", (id,))

@@ -1,6 +1,8 @@
-import sqlite3
+import sqlite3 #importa o sqlite
 
-def create_users_table(conn):
+def create_users_table(conn):   #função que cria uma tabela (caso não exista) de utilizadores. A tabela é composta por: ID,
+                                #username, password e email. O ID é chave primária e é criada automaticamente. O username,
+                                #a password e o email não podem ser campos que estejam em branco (NOT NULL).
     c = conn.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -10,13 +12,13 @@ def create_users_table(conn):
                 );""")
     conn.commit()
 
-def add_user(conn, username, password, email):
+def add_user(conn, username, password, email): #função que adiciona utilizadores e os valores para os seus respetivos dados
     c = conn.cursor()
     c.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
               (username, password, email))
     conn.commit()
 
-def get_user_by_username(conn, username):
+def get_user_by_username(conn, username): #função que procura os dados dos utilizadores através do username.
     c = conn.cursor()
     c.execute("SELECT * FROM users WHERE username=?", (username,))
     return c.fetchone()
