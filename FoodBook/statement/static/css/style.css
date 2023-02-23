@@ -1,7 +1,7 @@
-body {
-    background-image: url("featured_sarcasm.jpeg");
-    background-size: cover;
-    background-position: bottom;
+  
+  .body {
+    background-color:orange;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
   }
   
   .post {
@@ -9,7 +9,7 @@ body {
     border: 1px solid gray;
     border-radius: 10px;
     margin-bottom: 20px;
-    background-color: coral;
+    background-color: white;
   }
   
   .username {
@@ -26,5 +26,5 @@ body {
     border: 1px solid gray;
     border-radius: 10px;
     margin-bottom: 20px;
-    background-color: bisque;
+    background-color: white;
   }
