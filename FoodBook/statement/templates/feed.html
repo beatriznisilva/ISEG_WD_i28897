@@ -3,8 +3,7 @@
 {% block content %}
 
 <div class="container mt-5">
-  <h2 class="text-center">Feed</h2>
-  <p class="text-center">View and post updates on the Sarcastic Network</p>
+  <h2 class="text-center" style="font-size: 1.5rem;">View and post your favorite recipes on FoodBook!</h2>
 
   <!-- Post Form -->
   <form action="{{ url_for('post') }}" method="post" class="mb-5">
@@ -12,13 +11,13 @@
     <div class="form-group">
       <textarea class="form-control" rows="3" name="content"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Post</button>
+    <button type="submit" class="btn btn-dark btn-block">Post</button>
   </form>
 
   <!-- Posts -->
 
 
-  <h3 class="text-center">Posts</h3>
+  <h3 class="text-center">The best recipes from your friends</h3>
   {% for post in posts %}
     <div class="card mb-3">
       <div class="card-body">
@@ -33,7 +32,7 @@
             {{ form.hidden_tag() }}
             <input type="hidden" name="post_id" value="{{ post[0] }}">
             <input type="text" name="content" placeholder="Add a comment..." class="form-control">
-            <button type="submit" class="btn btn-primary btn-sm mt-2">Comment</button>
+            <button type="submit" class="btn btn-dark btn-sm mt-2">Comment</button>
           </form>
           <!-- Comments -->
           {% for comment in comments %}
@@ -43,7 +42,7 @@
               <form action="{{ url_for('upvote_comment') }}" method="post">
                 {{ form.hidden_tag() }}
                 <input type="hidden" name="comment_id" value="{{ comment[0] }}">
-                <button type="submit" class="btn btn-primary btn-sm">Upvote</button>
+                <button type="submit" class="btn btn-dark btn-sm">Love it</button>
               </form>
               <span class="badge badge-secondary"> Upvotes: {{ comment[5] }} upvotes</span>
             </div>
