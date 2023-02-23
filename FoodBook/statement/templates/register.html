@@ -2,31 +2,33 @@
 {% extends 'index.html' %}
 
 {% block content %}
-  <h2>Register</h2>
+
+<div style="padding:5%;">
+  <h2 style="padding-bottom: 15px;">Register</h2>
   
-  <form action="{{ url_for('register') }}" method="post">
-    <div class="form-group">
-        <label for="username">Username</label>
+  <form action="{{ url_for('register') }}" method="post" >
+    <div class="form-group" style="padding-bottom:15px;">
+        <label for="username">Chef's name</label>
         <input type="text" name="username" class="form-control" id="username" required>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="padding-bottom:15px;">
         <label for="password">Password</label>
         <input type="password" name="password" class="form-control" id="password" required>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="padding-bottom:15px;">
         <label for="password">Confirm Password</label>
         <input type="password" name="confirm_password" class="form-control" id="confirm_password" required>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="padding-bottom:15px;">
         <label for="password">Email</label>
         <input type="email" name="email" class="form-control" id="email" required>
     </div>
 
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-dark">Submit</button>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
    </form>
-
+</div>
 
   <div class="alert alert-danger">{{error if error is not none}}</div>
 {% endblock %}
