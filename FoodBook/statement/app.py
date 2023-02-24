@@ -13,7 +13,7 @@ app.secret_key = 'secret_key' # a secret key is required for sessions
 CSRFProtect(app)
 
 
-conn = sqlite3.connect('sarcastic_network.db',check_same_thread=False)
+conn = sqlite3.connect('FoodBook.db',check_same_thread=False)
 c = conn.cursor()
 
 @app.route('/')
