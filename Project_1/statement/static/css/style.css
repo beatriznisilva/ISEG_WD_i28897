@@ -1,7 +1,5 @@
 body {
-    background-image: url("featured_sarcasm.jpeg");
-    background-size: cover;
-    background-position: bottom;
+    background-color:orange;
   }
   
   .post {
