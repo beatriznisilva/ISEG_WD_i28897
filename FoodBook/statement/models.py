@@ -2,7 +2,7 @@ import sqlite3
 
 def init_db():
 
-    conn = sqlite3.connect('sarcastic_network.db')
+    conn = sqlite3.connect('FoodBook.db')
     c = conn.cursor()
 
     c.execute('''
