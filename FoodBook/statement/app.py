@@ -32,7 +32,8 @@ def register():
         password = request.form['password']
         image = request.files["image"]
         filename = secure_filename(image.filename)
-        image.save(os.path.join("C:/Users/ricar/anaconda3/envs/flask_environment/FoodBook/ISEG_WD_i28897/FoodBook/statement/static/", filename))
+        #image.save(os.path.join("C:/Users/ricar/anaconda3/envs/flask_environment/FoodBook/ISEG_WD_i28897/FoodBook/statement/static/", filename))
+        image.save(os.path.join("FoodBook/statement/static/", filename))
         # validate inputs
         if not username or not email or not password:
             return render_template('register.html', error='Please enter all fields')
