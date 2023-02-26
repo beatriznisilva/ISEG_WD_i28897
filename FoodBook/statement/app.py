@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 import models
 import sqlite3
 #import base64
 from flask_wtf.csrf import CSRFProtect
 from forms import LoginForm
-
+import os
 
 app = Flask(__name__)
 app.secret_key = 'secret_key' # a secret key is required for sessions
@@ -28,7 +29,9 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-
+        image = request.files["image"]
+        filename = secure_filename(image.filename)
+        image.save(os.path.join("C:\Users\ricar\anaconda3\envs\flask_environment\FoodBook\ISEG_WD_i28897\FoodBook\statement\static", filename))
         # validate inputs
         if not username or not email or not password:
             return render_template('register.html', error='Please enter all fields')
@@ -43,7 +46,7 @@ def register():
         if user:
             return render_template('register.html', error='Username or Email already exists')
 
-        c.execute("INSERT INTO users (username, email, password) VALUES (?,?,?)", (username, email, hashed_password))
+        c.execute("INSERT INTO users (username, email, password, image) VALUES (?,?,?,?)", (username, email, hashed_password,image))
         conn.commit()
         #conn.close()
         
