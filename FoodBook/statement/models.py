@@ -11,7 +11,7 @@ def init_db():
         username TEXT NOT NULL,
         email TEXT NOT NULL,
         password TEXT NOT NULL,
-        image BLOB,
+        image BLOB NOT NULL,
         registered_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (username),
         UNIQUE (email)
