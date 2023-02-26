@@ -13,7 +13,6 @@
    <!--      <img src="{{ url_for('get_user_image', user_id=user[0]) }}" alt="{{ user[1] }}'s image"> -->
         <img src="{{ url_for('image', filename=user[4]) }}" alt="{{ user[1] }}'s image" class="imag"> 
 
-   <!--     <p>Img: {{ url_for('image', filename=user[4]) }}</p>-->
       </header>
     <h2>Posts</h2>
     {% for post in posts %}
