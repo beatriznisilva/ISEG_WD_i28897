@@ -9,10 +9,7 @@
         <p>Chef's name: {{ user[1] }}</p>
         <p>Email: {{ user[2] }}</p>
         <p>Registration date: {{ user[5] }}</p>
-  <!--      <img src="C:/Users/ricar/anaconda3/envs/flask_environment/FoodBook/ISEG_WD_i28897/FoodBook/statement/static/{{ user[4] }}" alt="{{ user[1] }}'s image"> -->
-   <!--      <img src="{{ url_for('get_user_image', user_id=user[0]) }}" alt="{{ user[1] }}'s image"> -->
         <img src="{{ url_for('image', filename=user[4]) }}" alt="{{ user[1] }}'s image" class="imag"> 
-
       </header>
     <h2>Posts</h2>
     {% for post in posts %}
