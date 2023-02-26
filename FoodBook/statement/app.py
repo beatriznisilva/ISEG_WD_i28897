@@ -35,7 +35,7 @@ def register():
         #image.save(os.path.join("C:/Users/ricar/anaconda3/envs/flask_environment/FoodBook/ISEG_WD_i28897/FoodBook/statement/static/", filename))
         image.save(os.path.join("FoodBook/statement/static/", filename))
         # validate inputs
-        if not username or not email or not password:
+        if not username or not email or not password or not image:
             return render_template('register.html', error='Please enter all fields')
         if len(username) < 3 or len(email) < 3 or len(password) < 3:
             return render_template('register.html', error='Fields must be at least 3 characters long')
