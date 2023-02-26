@@ -11,14 +11,12 @@ def init_db():
         username TEXT NOT NULL,
         email TEXT NOT NULL,
         password TEXT NOT NULL,
-        image TEXT NOT NULL
+        image BLOB,
         registered_on DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE (username),
         UNIQUE (email)
     );
     ''')
-
-
 
 
     c.execute('''

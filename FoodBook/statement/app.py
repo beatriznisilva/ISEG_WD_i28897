@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, Response, send_file
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
@@ -10,7 +10,8 @@ from forms import LoginForm
 import os
 
 app = Flask(__name__)
-app.secret_key = 'secret_key' # a secret key is required for sessions
+#app.secret_key = 'secret_key' # a secret key is required for sessions
+app.secret_key = os.urandom(24)
 CSRFProtect(app)
 
 
@@ -46,7 +47,7 @@ def register():
         if user:
             return render_template('register.html', error='Username or Email already exists')
 
-        c.execute("INSERT INTO users (username, email, password, image) VALUES (?,?,?,?)", (username, email, hashed_password,image))
+        c.execute("INSERT INTO users (username, email, password, image) VALUES (?,?,?,?)", (username, email, hashed_password,filename))
         conn.commit()
         #conn.close()
         
@@ -279,6 +280,17 @@ def search():
     else:
         return render_template('search.html',form = form)
 
+@app.route('/user/<int:user_id>/image')
+def get_user_image(user_id):
+    c.execute("SELECT image FROM users WHERE id=?", (user_id,))
+    user = c.fetchone()
+    if not user or not user[0]:
+        return render_template('user_profile.html', error='No photo available')
+    return Response(user[0], mimetype='image/png')
+
+@app.route('/image/<filename>')
+def image(filename):
+    return send_file('C:/Users/ricar/anaconda3/envs/flask_environment/FoodBook/ISEG_WD_i28897/FoodBook/statement/static/' + filename, mimetype='image/jpeg')
 
 
 if __name__ == '__main__':
