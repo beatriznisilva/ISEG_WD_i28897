@@ -291,11 +291,7 @@ def search():
 
 @app.route('/image/<filename>')
 def image(filename):
-<<<<<<< HEAD
-    return send_file('FoodBook\statement\\static\\' + filename, mimetype='image/jpeg')
-=======
     return send_file('FoodBook\\statement\\static\\' + filename, mimetype='image/jpeg')
->>>>>>> 94779b4a99bbab57f04e4eb86d1cb2b5406773a4
 
 
 if __name__ == '__main__':
