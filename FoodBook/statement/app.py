@@ -280,13 +280,13 @@ def search():
     else:
         return render_template('search.html',form = form)
 
-@app.route('/user/<int:user_id>/image')
-def get_user_image(user_id):
-    c.execute("SELECT image FROM users WHERE id=?", (user_id,))
-    user = c.fetchone()
-    if not user or not user[0]:
-        return render_template('user_profile.html', error='No photo available')
-    return Response(user[0], mimetype='image/png')
+# @app.route('/user/<int:user_id>/image')
+# def get_user_image(user_id):
+#     c.execute("SELECT image FROM users WHERE id=?", (user_id,))
+#     user = c.fetchone()
+#     if not user or not user[0]:
+#         return render_template('user_profile.html', error='No photo available')
+#     return Response(user[0], mimetype='image/png')
 
 @app.route('/image/<filename>')
 def image(filename):
