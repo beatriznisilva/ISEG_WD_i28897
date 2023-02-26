@@ -291,7 +291,7 @@ def search():
 
 @app.route('/image/<filename>')
 def image(filename):
-    return send_file('C:/Users/ricar/anaconda3/envs/flask_environment/FoodBook/ISEG_WD_i28897/FoodBook/statement/static/' + filename, mimetype='image/jpeg')
+    return send_file('FoodBook/statement/static/' + filename, mimetype='image/jpeg')
 
 
 if __name__ == '__main__':
