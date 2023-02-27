@@ -34,7 +34,7 @@ def register():
         filename = ""
 
         # validate inputs
-        if not username or not email or not password:
+        if not username or not email or not password or not image:
             return render_template('register.html', error='Please enter all fields')
         if len(username) < 3 or len(email) < 3 or len(password) < 3:
             return render_template('register.html', error='Fields must be at least 3 characters long')
