@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, Response, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
@@ -15,7 +15,7 @@ app.secret_key = os.urandom(24)
 CSRFProtect(app)
 
 
-conn = sqlite3.connect('FoodBook.db',check_same_thread=False)
+conn = sqlite3.connect("/home/i28569/FoodBook.db",check_same_thread=False)
 c = conn.cursor()
 
 @app.route('/')
@@ -30,30 +30,35 @@ def register():
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        image = request.files["image"]
-        filename = secure_filename(image.filename)
-        #image.save(os.path.join("C:/Users/ricar/anaconda3/envs/flask_environment/FoodBook/ISEG_WD_i28897/FoodBook/statement/static/", filename))
-        image.save(os.path.join("FoodBook/statement/static/", filename))
+        image = request.files['image']
+        filename = ""
+
         # validate inputs
         if not username or not email or not password:
             return render_template('register.html', error='Please enter all fields')
         if len(username) < 3 or len(email) < 3 or len(password) < 3:
             return render_template('register.html', error='Fields must be at least 3 characters long')
-        
+
         hashed_password = generate_password_hash(password, method='sha256')
-        
+
 
         c.execute("SELECT * FROM users WHERE username=? OR email=?", (username, email))
         user = c.fetchone()
         if user:
             return render_template('register.html', error='Username or Email already exists')
+        elif image:
+            filename = secure_filename(image.filename)
+            image.save(f"/home/i28569/mysite/static/{secure_filename(image.filename)}")
+            c.execute("INSERT INTO users (username, email, password, image) VALUES (?,?,?,?)", (username, email, hashed_password,filename))
+        else:
+            c.execute("INSERT INTO users (username, email, password, image) VALUES (?,?,?,?)", (username, email, hashed_password,None))
 
-        c.execute("INSERT INTO users (username, email, password, image) VALUES (?,?,?,?)", (username, email, hashed_password,filename))
+        #c.execute("INSERT INTO users (username, email, password, image) VALUES (?,?,?,?)", (username, email, hashed_password,filename))
         conn.commit()
         #conn.close()
-        
+
         return redirect(url_for('login'))
-        
+
     return render_template('register.html')
 
 
@@ -66,13 +71,13 @@ def login():
     if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
-            
+
 
             c.execute("SELECT * FROM users WHERE username=?", (str(username),))
             conn.commit()
             user = c.fetchone()
             if user:
-                
+
                 print(user[3])
                 if check_password_hash(user[3], password):
                     session['logged_in'] = True
@@ -118,24 +123,28 @@ def profile(username):
     return render_template('user_profile.html', user=user, posts=posts, comments = comments,form = form)
 
 @app.route('/feed')
+
 def feed():
-    c.execute("""
-        SELECT * FROM posts
-        ORDER BY posts.created_at DESC
-    """)
-    posts = c.fetchall()
-    c.execute("""
-        SELECT * FROM comments
-        ORDER BY comments.timestamp DESC
-    """)
-    comments = c.fetchall()
-    form = LoginForm()
-    #for post in posts:
-        #with open(post.picture, "rb") as image_file:
-        #    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-        #post.picture = encoded_string
-    return render_template('feed.html', posts=posts, form = form, comments = comments)
-    #print(posts)
+    if session.get('logged_in') == True:
+        c.execute("""
+            SELECT * FROM posts
+            ORDER BY posts.created_at DESC
+        """)
+        posts = c.fetchall()
+        c.execute("""
+            SELECT * FROM comments
+            ORDER BY comments.timestamp DESC
+        """)
+        comments = c.fetchall()
+        form = LoginForm()
+        #for post in posts:
+            #with open(post.picture, "rb") as image_file:
+            #    encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+            #post.picture = encoded_string
+        return render_template('feed.html', posts=posts, form = form, comments = comments)
+        #print(posts)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/post', methods=['GET', 'POST'])
 def post():
@@ -153,8 +162,8 @@ def post():
     comments = c.fetchall()
     if request.method == 'POST':
         # Get the uploaded image
-        #image = request.files['image']
-
+        image = request.files['image']
+        filename = ""
         # Read the image into memory
         #image_bytes = image.read()
         #img_b = sqlite3.Binary(image_bytes)
@@ -168,7 +177,12 @@ def post():
 
         # Insert the post into the database
         #c = get_db().cursor()
-        c.execute('INSERT INTO posts (user_id, picture, content) VALUES (?, ?, ?)', (user_id, img_b , content))
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(f"/home/i28569/mysite/static/{secure_filename(image.filename)}")
+            c.execute("INSERT INTO posts (user_id, picture, content) VALUES (?, ?, ?)", (user_id, filename , content))
+        else:
+            c.execute('INSERT INTO posts (user_id, picture, content) VALUES (?, ?, ?)', (user_id, img_b , content))
         conn.commit()
         #get_db().commit()
 
@@ -253,55 +267,42 @@ def error_occurred(error):
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     form = LoginForm()
-    if request.method == 'POST':
-        # Connect to the database
-        #conn = sqlite3.connect('mydatabase.db')
-        #c = conn.cursor()
+    if session.get('logged_in') == True:
+        if request.method == 'POST':
+            # Connect to the database
+            #conn = sqlite3.connect('mydatabase.db')
+            #c = conn.cursor()
 
-        # Retrieve the search query from the form
-        search_query = request.form['query']
+            # Retrieve the search query from the form
+            search_query = request.form['query']
 
-        # Query the database for posts that match the search query
-        c.execute("SELECT * FROM posts WHERE content LIKE ?", ('%' + search_query + '%',))
-        results = c.fetchall()
+            # Query the database for posts that match the search query
+            c.execute("SELECT * FROM posts WHERE content LIKE ?", ('%' + search_query + '%',))
+            results = c.fetchall()
 
-        c.execute("""
-        SELECT * FROM comments
-        ORDER BY comments.timestamp DESC
-        """)
-        comments = c.fetchall()
+            c.execute("""
+            SELECT * FROM comments
+            ORDER BY comments.timestamp DESC
+            """)
+            comments = c.fetchall()
 
 
-        # Close the connection to the database
-        #conn.close()
+            # Close the connection to the database
+            #conn.close()
 
-        # Render the search results page
-        return render_template('search.html', posts=results, search_query=search_query, 
-                               form = form,comments = comments)
+            # Render the search results page
+            return render_template('search.html', posts=results, search_query=search_query,
+                                   form = form,comments = comments)
+        else:
+            return render_template('search.html',form = form)
     else:
-        return render_template('search.html',form = form)
-
-# @app.route('/user/<int:user_id>/image')
-# def get_user_image(user_id):
-#     c.execute("SELECT image FROM users WHERE id=?", (user_id,))
-#     user = c.fetchone()
-#     if not user or not user[0]:
-#         return render_template('user_profile.html', error='No photo available')
-#     return Response(user[0], mimetype='image/png')
+        return redirect(url_for('index'))
 
 @app.route('/image/<filename>')
 def image(filename):
-    return send_file('FoodBook\\statement\\static\\' + filename, mimetype='image/jpeg')
+    return send_file('/home/i28569/mysite/static/' + filename, mimetype='image/jpeg')
 
 
 if __name__ == '__main__':
     models.init_db()
     app.run(debug=True)
-
-
-
-
-
-
-
-
