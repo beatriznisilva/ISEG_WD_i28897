@@ -1,35 +1,35 @@
-  
-  .body {
-    background-color:orange;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
-  }
-  
-  .post {
-    padding: 10px;
-    border: 1px solid gray;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    background-color: white;
-  }
-  
-  .username {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .content {
-    margin-bottom: 10px;
-  }
 
-  .comment{
-    padding: 10px;
-    border: 1px solid gray;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    background-color: white;
-  }
+.body {
+  background-color:orange;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
 
-    .imag {
-      width: 100px;
-      height: 50px;
-    }
+.post {
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: white;
+}
+
+.username {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.content {
+  margin-bottom: 10px;
+}
+
+.comment{
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: white;
+}
+
+.imag {
+  width: 200px;
+  height: 100px;
+}

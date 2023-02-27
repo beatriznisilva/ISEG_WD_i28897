@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 
+{% block header_image %}{% endblock %}
 {% block content %}
   <h2>Search</h2>
   <form action="{{ url_for('search') }}" method="post">
@@ -17,6 +18,11 @@
             <p class="username">Author: {{ post[1] }}</p>
             <p class="content">{{ post[3] }}</p>
             <p class="timestamp">{{ post[4] }}</p>
+            {% if post[2] == '' %}
+                <p>No recipe image</p>
+            {% else %}
+                <p><img src="{{ url_for('image', filename=post[2]) }}" class="imag" width = "200" height = "100" > </p>
+            {% endif %}
           </div>
           <hr>
           <div class="card-footer">
@@ -39,7 +45,7 @@
                 <span class="badge badge-secondary"> Upvotes: {{ comment[5] }} upvotes</span>
               </div>
               {% endif %}
-  
+
             {% endfor %}
           </div>
         </div>
@@ -49,4 +55,3 @@
 
   {% endif %}
 {% endblock %}
-

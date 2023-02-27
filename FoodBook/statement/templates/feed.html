@@ -1,18 +1,24 @@
 {% extends 'index.html' %}
-
+<!--bloqueia a imagem de capa definida no index e permite que o conteudo surja no topo da pagina -->
+{% block header_image %}{% endblock %}
 {% block content %}
 
 <div class="container mt-5">
   <h2 class="text-center" style="font-size: 1.5rem;">View and post your favorite recipes on FoodBook!</h2>
 
   <!-- Post Form -->
-  <form action="{{ url_for('post') }}" method="post" class="mb-5">
+  <form action="{{ url_for('post') }}" method="post" class="mb-5" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <div class="form-group">
       <textarea class="form-control" rows="3" name="content"></textarea>
     </div>
+    <div class="form-group">
+      <label for="image">Photo</label>
+      <input type="file" name="image" class="form-control-file" id="image" accept="image/*">
+    </div>
     <button type="submit" class="btn btn-dark btn-block">Post</button>
   </form>
+
 
   <!-- Posts -->
 
@@ -25,6 +31,12 @@
           <p class="username">Author: {{ post[1] }}</p>
           <p class="content">{{ post[3] }}</p>
           <p class="timestamp">{{ post[4] }}</p>
+          <!--Adiciona imagem carregada no post, no caso de existir-->
+          {% if post[2] == '' %}
+            <p>No recipe image</p>
+          {% else %}
+            <p><img src="{{ url_for('image', filename=post[2]) }}" class="imag" width = "200" height = "100" > </p>
+          {% endif %}
         </div>
         <hr>
         <div class="card-footer">

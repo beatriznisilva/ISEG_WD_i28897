@@ -1,11 +1,11 @@
 
 {% extends 'index.html' %}
-
-{% block content %}
+<!--bloqueia a imagem de capa definida no index e permite que o conteudo surja no topo da pagina -->
+{% block header_image %}
 
 <div style="padding:5%;">
   <h2 style="padding-bottom: 15px;">Register</h2>
-  
+
   <form action="{{ url_for('register') }}" method="post" enctype="multipart/form-data">
     <div class="form-group" style="padding-bottom:15px;">
         <label for="username">Chef's name</label>
@@ -23,18 +23,11 @@
         <label for="email">Email</label>
         <input type="email" name="email" class="form-control" id="email" required>
     </div>
-  <!--  <div class="form-group" style="padding-bottom:15px;">
-      <label for="image">Photo</label>
-      <input type="image" name="image" class="form-control" id="image">
-     </div>-->
-  <!--<form method="POST" enctype="multipart/form-data">-->
-
+    <!--Para incluir botao para introduzir ficheiro-->
     <div class="form-group" style="padding-bottom:15px;" >
       <label for="image">Photo</label>
       <input type="file" name="image" class="form-control-file" id="image" accept="image/*">
-      <!--<br>
-      <input type="image" src="/static/submit_button_2.png" alt="Submit">-->
-    </div>  
+    </div>
 
     <button type="submit" class="btn btn-dark">Submit</button>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
