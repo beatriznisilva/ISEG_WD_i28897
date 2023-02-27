@@ -46,6 +46,7 @@ def register():
         user = c.fetchone()
         if user:
             return render_template('register.html', error='Username or Email already exists')
+         #para salvaguardar que o registo pode ser feito sem imagem
         elif image:
             filename = secure_filename(image.filename)
             image.save(f"/home/i28569/mysite/static/{secure_filename(image.filename)}")
@@ -177,6 +178,7 @@ def post():
 
         # Insert the post into the database
         #c = get_db().cursor()
+        #para salvaguardar que o post pode ser feito sem imagem
         if image:
             filename = secure_filename(image.filename)
             image.save(f"/home/i28569/mysite/static/{secure_filename(image.filename)}")
@@ -297,7 +299,7 @@ def search():
             return render_template('search.html',form = form)
     else:
         return redirect(url_for('index'))
-
+#envia a imagem para o cliente sempre que e chamada num ficheiro html
 @app.route('/image/<filename>')
 def image(filename):
     return send_file('/home/i28569/mysite/static/' + filename, mimetype='image/jpeg')
